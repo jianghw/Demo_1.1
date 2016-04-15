@@ -1,5 +1,6 @@
 package com.cjy.jianghw.app.tasks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,39 +27,39 @@ import java.util.ArrayList;
  * <b>@Author:</b>Administrator<br/>
  * <b>@Since:</b>2016/4/14 0014<br/>
  */
-public class TasksScFragment extends Fragment implements TasksScContractible.View {
+public class ScrollingFragment extends Fragment implements ScrollingContractible.TaskView {
 
 
-    private TasksScContractible.Presenter mPresenter;
-    private TasksScAdapter mListAdapter;
+    private ScrollingContractible.TaskPresenter mTaskPresenter;
+
+    private ScrollingAdapter mListAdapter;
+
     private TextView mFilteringLabelView;
     private LinearLayout mTasksView;
     private LinearLayout mNoTasksView;
     private ImageView mNoTaskIcon;
     private TextView mNoTaskMainView;
     private TextView mNoTaskAddView;
+    private ScrollChildSwipeRefreshLayout swipeRefreshLayout;
 
-    public static TasksScFragment newInstance() {
-        return new TasksScFragment();
-    }
-
-    @Override
-    public void setPresenter(TasksScContractible.Presenter presenter) {
-        mPresenter = Preconditions.checkNotNull(presenter);
+    public static ScrollingFragment newInstance() {
+        return new ScrollingFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mListAdapter = new TasksScAdapter(new ArrayList<BaseTask>(0), mTasksScItemListener);
+        mListAdapter = new ScrollingAdapter(new ArrayList<BaseTask>(0), mTasksScItemListener);
     }
 
     public interface TasksScItemListener {
+
         void onTaskClick(BaseTask task);
 
         void onCompleteTaskClick(BaseTask task);
 
         void onActivateTaskClice(BaseTask task);
+
     }
 
     TasksScItemListener mTasksScItemListener = new TasksScItemListener() {
@@ -102,7 +103,7 @@ public class TasksScFragment extends Fragment implements TasksScContractible.Vie
         });
 
         // Set up progress indicator
-        ScrollChildSwipeRefreshLayout swipeRefreshLayout =
+        swipeRefreshLayout =
                 (ScrollChildSwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getActivity(), R.color.colorPrimary),
@@ -114,11 +115,45 @@ public class TasksScFragment extends Fragment implements TasksScContractible.Vie
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {//下拉刷新
-
+                mTaskPresenter.initStart();
             }
         });
         //
         setHasOptionsMenu(true);
         return root;
+    }
+
+    public void setPresenter(ScrollingContractible.TaskPresenter taskPresenter) {
+        mTaskPresenter = Preconditions.checkNotNull(taskPresenter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTaskPresenter.initStart();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //        super.onActivityResult(requestCode, resultCode, data);
+        mTaskPresenter.activityResult(requestCode, resultCode);
+    }
+
+    @Override
+    public void setLoadingIndicator(boolean b) {
+        if (getView() == null) return;
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
+
+
+    }
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
     }
 }

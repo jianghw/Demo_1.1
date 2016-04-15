@@ -19,7 +19,7 @@
             </intent-filter>-->
         </activity>
         <activity
-            android:name=".tasks.TasksScrollingActivity"
+            android:name=".tasks.ScrollingActivity"
             android:label="@string/title_activity_tasks_scrolling"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

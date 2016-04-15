@@ -1,5 +1,7 @@
 package com.cjy.jianghw.app.data;
 
+import android.support.annotation.NonNull;
+
 import com.cjy.jianghw.app.base.BaseTask;
 
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
  * <b>@Author:</b>jianghw<br/>
  * <b>@Since:</b>2016/4/14<br/>
  */
-public interface TasksDatable {
+public interface DataSourceible {
 
     interface LoadTasksCallback {
         void onTasksLoading(List<BaseTask> tasks);
@@ -22,4 +24,6 @@ public interface TasksDatable {
 
         void onDataNotAvaliable();
     }
+
+    void getTask(@NonNull LoadTasksCallback callback);
 }

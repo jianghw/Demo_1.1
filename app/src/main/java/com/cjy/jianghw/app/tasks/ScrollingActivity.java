@@ -9,18 +9,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.cjy.jianghw.app.Injection;
 import com.cjy.jianghw.app.R;
 import com.cjy.jianghw.app.util.ActivityUtils;
 
-public class TasksScrollingActivity extends AppCompatActivity {
+public class ScrollingActivity extends AppCompatActivity {
 
     private static final String CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY";//当前过滤
-    private TasksScPresenter mTasksPresenter;//对应presenter
+    private ScrollingPresenter mScrollingPresenter;//对应presenter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tasks_scrolling);
+        setContentView(R.layout.activity_scrolling);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -30,31 +31,41 @@ public class TasksScrollingActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //create view
+                    createFragmentView();
+
                     Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
             });
         }
 
-        TasksScFragment tsFragment =
-                (TasksScFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (tsFragment == null) {
-            tsFragment = TasksScFragment.newInstance();
+        if (savedInstanceState != null) {
+            EnumFilterType enumFilterType = (EnumFilterType)
+                    savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
+            mScrollingPresenter.setFiltering(enumFilterType);
+        }
+    }
+
+    private void createFragmentView() {
+        ScrollingFragment scrollingFragment =
+                (ScrollingFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (scrollingFragment == null) {
+            scrollingFragment = ScrollingFragment.newInstance();
             ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), tsFragment, R.id.contentFrame);
+                    getSupportFragmentManager(), scrollingFragment, R.id.contentFrame);
         }
 
-        //Create the presenter
-//        mTasksPresenter=new TasksScPresenter(Injection.,tsFragment);
-        if(savedInstanceState!=null){
-            TasksFilterType tasksFilterType=(TasksFilterType)savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
-            mTasksPresenter.setFiltering(tasksFilterType);
+        //Create the presenter 传入data层 view层
+        if (mScrollingPresenter == null) {
+            mScrollingPresenter = new ScrollingPresenter(//注射
+                    Injection.provideTwoRepository(getApplicationContext()), scrollingFragment);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        outState.putSerializable(CURRENT_FILTERING_KEY, mTasksPresenter.getFiltering());
+        outState.putSerializable(CURRENT_FILTERING_KEY, mScrollingPresenter.getFiltering());
         super.onSaveInstanceState(outState, outPersistentState);
     }
 

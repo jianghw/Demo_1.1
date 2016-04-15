@@ -17,6 +17,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // If you need to add more flavors, consider using flavor dimensions.
+    // 如果您需要添加更多的口味,考虑使用味道维度
+    productFlavors {
+        mock {
+            applicationIdSuffix = ".mock"
+        }
+        prod {
+
+        }
+    }
 }
 
 dependencies {

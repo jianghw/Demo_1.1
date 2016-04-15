@@ -13,10 +13,10 @@ import java.util.ArrayList;
  * <b>@Author:</b>Administrator<br/>
  * <b>@Since:</b>2016/4/14 0014<br/>
  */
-public class TasksScAdapter extends BaseAdapter{
+public class ScrollingAdapter extends BaseAdapter{
 
-    public TasksScAdapter(ArrayList<BaseTask> baseTasks,
-                          TasksScFragment.TasksScItemListener tasksScItemListener) {
+    public ScrollingAdapter(ArrayList<BaseTask> baseTasks,
+                            ScrollingFragment.TasksScItemListener tasksScItemListener) {
 
     }
 
