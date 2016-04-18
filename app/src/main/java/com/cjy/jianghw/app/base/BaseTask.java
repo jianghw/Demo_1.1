@@ -72,4 +72,53 @@ public class BaseTask {
     public boolean isActive() {
         return !mCompleted;
     }
+
+    public boolean isEmpty() {
+        return (mTitle == null || "".equals(mTitle)) &&
+                (mDescription == null || "".equals(mDescription));
+    }
+
+    @Override
+    public String toString() {
+        return "BaseTask{" +
+                "mId='" + mId + '\'' +
+                ", mTitle='" + mTitle + '\'' +
+                ", mDescription='" + mDescription + '\'' +
+                ", mCompleted=" + mCompleted +
+                '}';
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    @Nullable
+    public String getTitle() {
+        return mTitle;
+    }
+
+    @Nullable
+    public String getDescription() {
+        return mDescription;
+    }
+
+    @Nullable
+    public String getTitleForList() {
+        if (mTitle != null && !mTitle.equals("")) {
+            return mTitle;
+        } else {
+            return mDescription;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mId != null ? mId.hashCode() : 0;
+        result = 31 * result + (mTitle != null ? mTitle.hashCode() : 0);
+        result = 31 * result + (mDescription != null ? mDescription.hashCode() : 0);
+        result = 31 * result + (mCompleted ? 1 : 0);
+        return result;
+    }
+
+
 }

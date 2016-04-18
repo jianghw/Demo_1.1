@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.cjy.jianghw.app.base.BaseTask;
 import com.cjy.jianghw.app.data.DataSourceible;
 import com.cjy.jianghw.app.data.ScrollingRepository;
+import com.cjy.jianghw.app.util.EspressoIDResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class ScrollingPresenter implements ScrollingContractible.TaskPresenter {
     private final ScrollingRepository mRepository;
     private final ScrollingContractible.TaskView mTasksView;
 
-    private EnumFilterType mCurrentFileter = EnumFilterType.ALL_TASKS;//默认不过滤
+    private EnumFilterType mCurrentEnumFilter = EnumFilterType.ALL_TASKS;//默认不过滤
     private boolean mFirstLoad = true;//初始化时网路加载
 
     public ScrollingPresenter(@NonNull ScrollingRepository scrollingRepository,
@@ -33,16 +34,18 @@ public class ScrollingPresenter implements ScrollingContractible.TaskPresenter {
     }
 
     /**
+     * Sets the current task filtering type. 设置当前事务处理类型
+     *
      * @param enumFilterType Can be {@link EnumFilterType#ALL_TASKS},
      *                       {@link EnumFilterType#COMPLETED_TASKS},
      *                       or{@link EnumFilterType#ACTIVE_TASKS}
      */
     public void setFiltering(EnumFilterType enumFilterType) {
-        mCurrentFileter = enumFilterType;
+        mCurrentEnumFilter = enumFilterType;
     }
 
     public EnumFilterType getFiltering() {
-        return mCurrentFileter;
+        return mCurrentEnumFilter;
     }
 
     @Override
@@ -65,13 +68,16 @@ public class ScrollingPresenter implements ScrollingContractible.TaskPresenter {
      * @param showLoadingUI Pass in true to display a loading icon in the UI 加载图标
      */
     private void loadTasks(boolean forceUpdate, final boolean showLoadingUI) {
-        if (showLoadingUI) {
+        if (showLoadingUI) {//第一次加载时 网络层
             mTasksView.setLoadingIndicator(true);
         }
         //数据层操作刷新
         if (forceUpdate) {
             mRepository.refreshTask();
         }
+        //The network request might be handled in a different thread
+        //so make sure Espresso knows that the app is busy until the response is handled.
+        EspressoIDResource.increment();//App is busy until further notice 自增1
 
         mRepository.getTask(new DataSourceible.LoadTasksCallback() {
             @Override
@@ -79,7 +85,7 @@ public class ScrollingPresenter implements ScrollingContractible.TaskPresenter {
                 //用于显示的事务
                 List<BaseTask> listToShow = new ArrayList<>();
                 for (BaseTask baseTask : tasks) {
-                    switch (mCurrentFileter) {
+                    switch (mCurrentEnumFilter) {
                         case ALL_TASKS:
                             listToShow.add(baseTask);
                             break;
@@ -94,7 +100,8 @@ public class ScrollingPresenter implements ScrollingContractible.TaskPresenter {
                             break;
                     }
                 }
-
+                // The view may not be able to handle UI updates anymore
+                // 视图可能无法处理UI更新了
                 if (!mTasksView.isActive()) return;
                 if (showLoadingUI) mTasksView.setLoadingIndicator(false);
 
@@ -103,7 +110,8 @@ public class ScrollingPresenter implements ScrollingContractible.TaskPresenter {
 
             @Override
             public void onDataNotAvaliable() {
-
+                if (!mTasksView.isActive()) return;
+                mTasksView.onShowLoadingError();
             }
         });
 
@@ -112,9 +120,10 @@ public class ScrollingPresenter implements ScrollingContractible.TaskPresenter {
     private void onProcessTasks(List<BaseTask> listToShow) {
         if (listToShow.isEmpty()) {
             //Show a message indicating there are no tasks for that filter type.
+            //显示一条消息说明没有任务,滤波器类型。
             onProcessEmptyTasks();
         } else {
-            // Show the list of tasks
+            // Show the list of tasks 显示事件
             mTasksView.onShowTasks(listToShow);
             // Set the filter label's text.
             onShowFilterLabel();
@@ -122,11 +131,21 @@ public class ScrollingPresenter implements ScrollingContractible.TaskPresenter {
     }
 
     private void onProcessEmptyTasks() {
-
+        switch (mCurrentEnumFilter) {
+            case ACTIVE_TASKS:
+                mTasksView.onShowNoActiveTasks();
+                break;
+            case COMPLETED_TASKS:
+                mTasksView.onShowNoCompletedTasks();
+                break;
+            default:
+                mTasksView.onShowNoTasks();
+                break;
+        }
     }
 
     private void onShowFilterLabel() {
-        switch (mCurrentFileter) {
+        switch (mCurrentEnumFilter) {
             case ACTIVE_TASKS:
                 mTasksView.onShowActiveFilterLabel();
                 break;
@@ -146,6 +165,25 @@ public class ScrollingPresenter implements ScrollingContractible.TaskPresenter {
 
     @Override
     public void addNewTask() {
+        mTasksView.onShowAddTask();
+    }
+
+    @Override
+    public void openTaskDetails(BaseTask task) {
+        checkNotNull(task, "requestedTask cannot be null!");
+        mTasksView.showTaskDetailsUI(task.getId());
+    }
+
+    @Override
+    public void completeTask(BaseTask task) {
+        checkNotNull(task, "completedTask cannot be null!");
+        mRepository.completeTask(task);
+        mTasksView.showTaskMarkedComplete();
+        loadTasks(false, false);
+    }
+
+    @Override
+    public void activateTask(BaseTask task) {
 
     }
 }

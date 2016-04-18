@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import com.cjy.jianghw.app.base.BaseTask;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <b>@Description:</b>TODO<br/>
@@ -38,5 +39,9 @@ public class ScrollingAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return null;
+    }
+
+    public void replaceData(List<BaseTask> listToShow) {
+
     }
 }

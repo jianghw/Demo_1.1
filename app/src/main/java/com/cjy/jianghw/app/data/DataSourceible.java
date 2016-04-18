@@ -13,17 +13,26 @@ import java.util.List;
  */
 public interface DataSourceible {
 
+
     interface LoadTasksCallback {
+
         void onTasksLoading(List<BaseTask> tasks);
 
         void onDataNotAvaliable();
     }
 
     interface  getTasksCallback{
-        void onTasksLoading(List<BaseTask> tasks);
+
+        void onTasksLoaded(List<BaseTask> tasks);
 
         void onDataNotAvaliable();
     }
 
     void getTask(@NonNull LoadTasksCallback callback);
+
+    void completeTask(@NonNull BaseTask task);
+
+    void deleteAllTasks();
+
+    void saveTasks(BaseTask task);
 }

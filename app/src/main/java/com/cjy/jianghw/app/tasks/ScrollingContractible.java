@@ -1,7 +1,10 @@
 package com.cjy.jianghw.app.tasks;
 
+import com.cjy.jianghw.app.base.BaseTask;
 import com.cjy.jianghw.app.base.BaseView;
 import com.cjy.jianghw.app.base.BasePresenter;
+
+import java.util.List;
 
 /**
  * <b>@Description:</b>
@@ -23,6 +26,28 @@ public interface ScrollingContractible {
          * Return true if the fragment is currently added to its activity.
          */
         boolean isActive();
+
+        void onShowTasks(List<BaseTask> listToShow);
+
+        void onShowLoadingError();
+
+        void onShowNoActiveTasks();
+
+        void onShowNoCompletedTasks();
+
+        void onShowNoTasks();
+
+        void onShowActiveFilterLabel();
+
+        void onShowCompletedFilterLabel();
+
+        void onShowAllFilterLabel();
+
+        void onShowAddTask();
+
+        void showTaskDetailsUI(String id);
+
+        void showTaskMarkedComplete();
     }
 
     interface TaskPresenter extends BasePresenter {
@@ -35,5 +60,11 @@ public interface ScrollingContractible {
          * 添加新的事件
          */
         void addNewTask();
+
+        void openTaskDetails(BaseTask task);
+
+        void completeTask(BaseTask task);
+
+        void activateTask(BaseTask task);
     }
 }
