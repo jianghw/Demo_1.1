@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Maniac</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- DataBase Name And Version -->
+    <string name="DataBaseName_Version">1</string>
+    <string name="DataBaseName">MusicDB</string>
+</resources>

@@ -1,3 +1,4 @@
+### Android template
 # Built application files
 *.apk
 *.ap_
@@ -11,6 +12,7 @@
 # Generated files
 bin/
 gen/
+out/
 
 # Gradle files
 .gradle/
@@ -31,10 +33,9 @@ proguard/
 # Android Studio captures folder
 captures/
 
-.idea
+# Intellij
 *.iml
 
-# Eclipse project files
-.project
-.settings/
-.classpath
+# Keystore files
+*.jks
+/build
