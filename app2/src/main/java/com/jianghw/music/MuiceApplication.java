@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jianghw.music.db.MusicDBHelper;
 
 /**
@@ -18,7 +19,7 @@ import com.jianghw.music.db.MusicDBHelper;
  */
 public class MuiceApplication extends Application {
 
-    private Context applicationContext;
+    public static Context applicationContext;
     private Handler applicationHandler;
     private MusicDBHelper DB_HELPER;
 
@@ -41,6 +42,10 @@ public class MuiceApplication extends Application {
 		 */
         checkDisplaySize();
         density = applicationContext.getResources().getDisplayMetrics().density;
+        /**
+         *
+         */
+        Fresco.initialize(applicationContext);
     }
 
     private void checkDisplaySize() {
