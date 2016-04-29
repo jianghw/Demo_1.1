@@ -17,10 +17,10 @@ import com.jianghw.music.db.MusicDBHelper;
  * <b>@Author:</b>jianghw<br/>
  * <b>@Since:</b>2016/4/27<br/>
  */
-public class MuiceApplication extends Application {
+public class MusicApplication extends Application {
 
     public static Context applicationContext;
-    private Handler applicationHandler;
+    public static  Handler applicationHandler;
     private MusicDBHelper DB_HELPER;
 
     public static Point displaySize = new Point();//显示大小

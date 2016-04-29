@@ -1,7 +1,12 @@
 package com.jianghw.music.data;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.content.AsyncTaskLoader;
+
+import com.jianghw.music.xutil.NullExUtils;
+
+import java.util.List;
 
 /**
  * @Description: </b>TODO<br/>
@@ -10,14 +15,17 @@ import android.support.v4.content.AsyncTaskLoader;
  * @See {@link}
  * @Github {@https://github.com/jianghw/Demo_1.1}
  */
-public class DataLoader<T> extends AsyncTaskLoader<T> {
+public class DataLoader extends AsyncTaskLoader<List<MusicTask>> {
 
-    public DataLoader(Context context) {
+    private Repository mRepository;
+
+    public DataLoader(Context context, @NonNull Repository repository) {
         super(context);
+        mRepository = NullExUtils.checkNotNull(repository);
     }
 
     @Override
-    public T loadInBackground() {
-        return null;
+    public List<MusicTask> loadInBackground() {
+        return  mRepository.getTasks();
     }
 }

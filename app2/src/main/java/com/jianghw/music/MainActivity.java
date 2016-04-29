@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity
             if (data.getScheme().equalsIgnoreCase("file")) {
                 String path = data.getPath();
                 if (!TextUtils.isEmpty(path)) {
-                    MyMediaController.getInstance().cleanUpPlayer(mActivity,true,true);
+                    MyMediaController.getInstance().cleanUpPlayer(true,true);
                 }
             }
         }
