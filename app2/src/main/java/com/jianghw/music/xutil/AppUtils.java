@@ -1,6 +1,6 @@
 package com.jianghw.music.xutil;
 
-import com.jianghw.music.MuiceApplication;
+import com.jianghw.music.MusicApplication;
 import com.jianghw.music.R;
 
 /**
@@ -14,7 +14,7 @@ public class AppUtils {
     public static void settingCurrentTheme(int theme) {
         switch (theme) {
             case 1:
-                MuiceApplication.applicationContext.setTheme(R.style.AppTheme);
+                MusicApplication.applicationContext.setTheme(R.style.AppTheme);
                 break;
         }
     }

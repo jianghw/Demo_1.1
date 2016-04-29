@@ -8,9 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jianghw.music.contant.MContant;
 import com.jianghw.music.data.DataLoader;
 import com.jianghw.music.data.Injection;
+import com.jianghw.music.data.MusicTask;
+import com.jianghw.music.data.Repository;
 import com.jianghw.music.view.allsongs.IAllSongsContract;
+
+import java.util.List;
 
 /**
  * @Description: </b>TODO<br/>
@@ -37,6 +42,19 @@ public class FragmentAllSongs extends Fragment implements IAllSongsContract.IAll
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //注入本地库和远程库
+        Repository repository = Injection.provideRepository(mContext.getApplicationContext());
+        allSongsPresenter = new AllSongsPresenter(
+                new DataLoader(mContext.getApplicationContext(), repository),
+                getActivity().getSupportLoaderManager(),
+                repository,
+                this);
+
+        if (savedInstanceState != null) {
+            MusicFilterType currentFiltering =
+                    (MusicFilterType) savedInstanceState.getSerializable(MContant.MString.CURRENT_FILTERING_KEY);
+            allSongsPresenter.setFiltering(currentFiltering);
+        }
     }
 
     @Nullable
@@ -49,12 +67,57 @@ public class FragmentAllSongs extends Fragment implements IAllSongsContract.IAll
     public void onResume() {
         super.onResume();
 
-        if(allSongsPresenter==null){
-            allSongsPresenter = new AllSongsPresenter(
-                    new DataLoader(mContext.getApplicationContext()),
-                    getActivity().getSupportLoaderManager(),
-                    Injection.provideRepository(mContext.getApplicationContext()),
-                    this);
-        }
+        allSongsPresenter.initStart();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(MContant.MString.CURRENT_FILTERING_KEY, allSongsPresenter.getFiltering());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void setLoadingIndicator(boolean b) {
+
+    }
+
+    @Override
+    public void showLoadingTasksError() {
+
+    }
+
+    @Override
+    public void showNoActiveTasks() {
+
+    }
+
+    @Override
+    public void showNoCompletedTasks() {
+
+    }
+
+    @Override
+    public void showNoTasks() {
+
+    }
+
+    @Override
+    public void showActiveFilterLabel() {
+
+    }
+
+    @Override
+    public void showCompletedFilterLabel() {
+
+    }
+
+    @Override
+    public void showAllFilterLabel() {
+
+    }
+
+    @Override
+    public void showTasks(List<MusicTask> tasksToDisplay) {
+
     }
 }

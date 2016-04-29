@@ -2,6 +2,10 @@ package com.jianghw.music.data;
 
 import android.content.Context;
 
+import com.jianghw.music.data.local.LocalDataDB;
+import com.jianghw.music.data.remote.RemoteData;
+import com.jianghw.music.xutil.NullExUtils;
+
 /**
  * @Description: </b>TODO<br/>
  * @Author: </b>jianghw<br>
@@ -11,6 +15,9 @@ import android.content.Context;
  */
 public class Injection {
     public static Repository provideRepository(Context applicationContext) {
-        return null;
+        NullExUtils.checkNotNull(applicationContext);
+        return Repository.getInstance(
+                RemoteData.getInstance(),
+                LocalDataDB.getInstance(applicationContext));
     }
 }
