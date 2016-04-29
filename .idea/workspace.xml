@@ -26,35 +26,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="408fcd4e-08c9-405b-92ab-f04d22457785" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/bolts_android_1_1_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/drawee_0_10_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/fbcore_0_10_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/fresco_0_10_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/imagepipeline_0_10_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/imagepipeline_base_0_10_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/library_2_4_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/base/IBasePresenter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/base/IBaseView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/data/DataLoader.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/data/Injection.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/data/Repository.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/manager/MusicPreferences.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/manager/MyMediaController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/view/AllSongsPresenter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/view/FragmentAllSongs.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/view/allsongs/IAllSongsContract.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/xutil/AddFgtUtils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/xutil/AppUtils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/xutil/NullExUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app2/build.gradle" afterPath="$PROJECT_DIR$/app2/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/MainActivity.java" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/MuiceApplication.java" afterPath="$PROJECT_DIR$/app2/src/main/java/com/jianghw/music/MuiceApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app2/src/main/res/layout/content_main.xml" afterPath="$PROJECT_DIR$/app2/src/main/res/layout/content_main.xml" />
-    </list>
+    <list default="true" id="408fcd4e-08c9-405b-92ab-f04d22457785" name="Default" comment="" />
     <ignored path="Demo_1.1.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -5019,7 +4991,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="418" y="119" width="1430" height="860" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -5037,7 +5009,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31991217" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31991217" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32805756" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
