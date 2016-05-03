@@ -1,5 +1,7 @@
 package com.jianghw.music.bean;
 
+import android.text.TextUtils;
+
 /**
  * @Description: </b>TODO<br/>
  * @Author: </b>Administrator<br/>
@@ -18,6 +20,18 @@ public class SongDetailBean {
     public String path;
     public float audioProgress = 0.0f;//播放进度
     public int audioProgressSec = 0;//第二个播放进度
+
+
+    public SongDetailBean(int _id, int album_id,
+                          String _artist, String _title, String _path, String _display_name, String _duration) {
+        this.id = _id;
+        this.album_id = album_id;
+        this.artist = _artist;
+        this.title = _title;
+        this.path = _path;
+        this.display_name = _display_name;
+        this.duration = TextUtils.isEmpty(_duration) ? "0" : String.valueOf((Long.valueOf(_duration) / 1000));
+    }
 
     public int getId() {
         return id;

@@ -12,12 +12,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.jianghw.music.bean.SongDetailBean;
+import com.jianghw.music.manager.MusicPreferences;
 import com.jianghw.music.manager.MyMediaController;
-import com.jianghw.music.view.FragmentAllSongs;
+import com.jianghw.music.view.allsongs.FragmentAllSongs;
 import com.jianghw.music.xutil.AddFgtUtils;
 import com.jianghw.music.xutil.AppUtils;
 
@@ -31,6 +34,7 @@ import com.jianghw.music.xutil.AppUtils;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "MainActivity";
     private int currentPosition = 0;//当前页面fragment
     private FragmentAllSongs mFragmentAllSongs;
     private MainActivity mActivity;
@@ -46,7 +50,6 @@ public class MainActivity extends AppCompatActivity
         initCurrentTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -79,6 +82,9 @@ public class MainActivity extends AppCompatActivity
         getIntentData();
     }
 
+    /**
+     * 初始化fragment页面
+     */
     private void initCurrentFragment() {
         AddFgtUtils.addFragmentOnly(
                 getSupportFragmentManager(),
@@ -98,16 +104,81 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Get intent data from music choose option
+     */
     private void getIntentData() {
         Uri data = getIntent().getData();
         if (data != null) {
+            //.getSchema()可以返回当前页面使用的协议，http 或是 https;
             if (data.getScheme().equalsIgnoreCase("file")) {
                 String path = data.getPath();
                 if (!TextUtils.isEmpty(path)) {
-                    MyMediaController.getInstance().cleanUpPlayer(true,true);
+                    MyMediaController.getInstance().cleanUpPlayer(true, true);
+
+                    MusicPreferences.getPlaylist(path);
+                    updateTitle(false);
+                    MyMediaController.getInstance().playAudio(MusicPreferences.songDetailBean);
                 }
             }
+            if (data.getScheme().equalsIgnoreCase("http"))
+                Log.i(TAG, data.getPath());
+            if (data.getScheme().equalsIgnoreCase("content"))
+                Log.i(TAG, data.getPath());
         }
+    }
+
+    private void updateTitle(boolean shutdown) {
+        SongDetailBean mSongDetail = MyMediaController.getInstance().getPlayingSongDetail();
+        if (mSongDetail == null && shutdown) {
+            return;
+        } else {
+            updateProgress(mSongDetail);
+            if (MyMediaController.getInstance().isAudioPaused()) {
+               /* btn_playpausePanel.Pause();
+                btn_playpause.Pause();*/
+            } else {
+              /*  btn_playpausePanel.Play();
+                btn_playpause.Play();*/
+            }
+            SongDetailBean audioInfo = MyMediaController.getInstance().getPlayingSongDetail();
+            loadSongsDetails(audioInfo);
+
+          /*  if (txt_timetotal != null) {
+                long duration = Long.valueOf(audioInfo.getDuration());
+                txt_timetotal.setText(duration != 0 ? String.format("%d:%02d", duration / 60, duration % 60) : "-:--");
+            }*/
+        }
+    }
+
+    private void updateProgress(SongDetailBean songDetailBean) {
+      /*  if (audio_progress != null) {
+            // When SeekBar Draging Don't Show Progress
+            if (!isDragingStart) {
+                // Progress Value comming in point it range 0 to 1
+                audio_progress.setValue((int) (songDetailBean.audioProgress * 100));
+            }
+            String timeString = String.format("%d:%02d", songDetailBean.audioProgressSec / 60, songDetailBean.audioProgressSec % 60);
+            txt_timeprogress.setText(timeString);
+        }*/
+    }
+
+    private void loadSongsDetails(SongDetailBean songDetailBean) {
+    /*    String contentURI = "content://media/external/audio/media/" + mDetail.getId() + "/albumart";
+        imageLoader.displayImage(contentURI, songAlbumbg, options, animateFirstListener);
+        imageLoader.displayImage(contentURI, img_bottom_slideone, options, animateFirstListener);
+        imageLoader.displayImage(contentURI, img_bottom_slidetwo, options, animateFirstListener);
+
+        txt_playesongname.setText(mDetail.getTitle());
+        txt_songartistname.setText(mDetail.getArtist());
+        txt_playesongname_slidetoptwo.setText(mDetail.getTitle());
+        txt_songartistname_slidetoptwo.setText(mDetail.getArtist());
+
+        if (txt_timetotal != null) {
+            long duration = Long.valueOf(mDetail.getDuration());
+            txt_timetotal.setText(duration != 0 ? String.format("%d:%02d", duration / 60, duration % 60) : "-:--");
+        }*/
+        updateProgress(songDetailBean);
     }
 
     @Override

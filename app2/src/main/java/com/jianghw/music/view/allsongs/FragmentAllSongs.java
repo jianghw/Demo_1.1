@@ -1,4 +1,4 @@
-package com.jianghw.music.view;
+package com.jianghw.music.view.allsongs;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import com.jianghw.music.data.DataLoader;
 import com.jianghw.music.data.Injection;
 import com.jianghw.music.data.MusicTask;
 import com.jianghw.music.data.Repository;
-import com.jianghw.music.view.allsongs.IAllSongsContract;
+import com.jianghw.music.view.MusicFilterType;
 
 import java.util.List;
 
@@ -42,11 +42,23 @@ public class FragmentAllSongs extends Fragment implements IAllSongsContract.IAll
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         //注入本地库和远程库
         Repository repository = Injection.provideRepository(mContext.getApplicationContext());
         allSongsPresenter = new AllSongsPresenter(
                 new DataLoader(mContext.getApplicationContext(), repository),
-                getActivity().getSupportLoaderManager(),
+                getLoaderManager(),
                 repository,
                 this);
 
@@ -55,12 +67,6 @@ public class FragmentAllSongs extends Fragment implements IAllSongsContract.IAll
                     (MusicFilterType) savedInstanceState.getSerializable(MContant.MString.CURRENT_FILTERING_KEY);
             allSongsPresenter.setFiltering(currentFiltering);
         }
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

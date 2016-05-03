@@ -21,13 +21,14 @@ public class MusicDBHelper extends SQLiteOpenHelper {
     private SQLiteDatabase db;
 
     public MusicDBHelper(Context context) {
-        super(context, context.getResources().getString(R.string.DataBaseName), null,
+        super(context, context.getResources().getString(R.string.DataBaseName),
+                null,
                 Integer.parseInt(context.getResources().getString(R.string.DataBaseName_Version)));
 
         this.mContext = context;
         DATABASE_NAME = context.getResources().getString(R.string.DataBaseName);
-        DATABASE_VERSION = Integer.parseInt(context.getResources()
-                .getString(R.string.DataBaseName_Version));
+        DATABASE_VERSION = Integer.parseInt(
+                context.getResources().getString(R.string.DataBaseName_Version));
         DB_PATH = context.getDatabasePath(DATABASE_NAME).getPath();
 
         context.openOrCreateDatabase(DATABASE_NAME, SQLiteDatabase.OPEN_READWRITE, null);

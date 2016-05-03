@@ -1,4 +1,4 @@
-package com.jianghw.music.view;
+package com.jianghw.music.view.allsongs;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +9,7 @@ import com.jianghw.music.contant.MContant;
 import com.jianghw.music.data.DataLoader;
 import com.jianghw.music.data.MusicTask;
 import com.jianghw.music.data.Repository;
-import com.jianghw.music.view.allsongs.IAllSongsContract;
+import com.jianghw.music.view.MusicFilterType;
 import com.jianghw.music.xutil.NullExUtils;
 
 import java.io.Serializable;

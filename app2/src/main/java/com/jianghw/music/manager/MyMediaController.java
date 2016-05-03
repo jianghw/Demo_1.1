@@ -1,5 +1,6 @@
 package com.jianghw.music.manager;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -8,12 +9,14 @@ import android.media.AudioTrack;
 import android.media.MediaPlayer;
 import android.os.PowerManager;
 
+import com.jianghw.music.MusicApplication;
 import com.jianghw.music.bean.SongDetailBean;
+import com.jianghw.music.service.MusicPlayerService;
 
 import java.util.Timer;
 
 /**
- * @Description: </b>TODO<br/>
+ * @Description: </b>媒体控制类<br/>
  * @Author: </b>jianghw<br>
  * @Since: </b>2016/4/28<br>
  * @See {@link}
@@ -26,7 +29,7 @@ public class MyMediaController implements SensorEventListener {
     public int currentPlaylistNum;//当前播放的位置号码
 
     private MediaPlayer mMediaPlayer = null;//媒体播放器
-    private AudioTrack mAudioTrack = null;//声道
+    private AudioTrack mAudioTrack = null;//声道 音轨
 
     private static volatile MyMediaController INSTANCE = null;
 
@@ -37,7 +40,11 @@ public class MyMediaController implements SensorEventListener {
     private PowerManager.WakeLock proximityWakeLock;//电源锁
 
     private final Object progressTimerSync = new Object();//定义同步对象锁
+    private final Object playerSongDetailSync = new Object();//定义同步对象锁
     private Timer progressTimer = null;
+
+    private boolean isPaused = true;//暂停
+
 
     public static MyMediaController getInstance() {
         MyMediaController mediaController = INSTANCE;
@@ -53,8 +60,10 @@ public class MyMediaController implements SensorEventListener {
     }
 
     /**
+     * 当有新的指令过来时
+     *
      * @param notify
-     * @param stopService
+     * @param stopService true暂停播放服务
      */
     public void cleanUpPlayer(boolean notify, boolean stopService) {
         saveLastPreferences();
@@ -69,12 +78,36 @@ public class MyMediaController implements SensorEventListener {
         MusicPreferences.saveLastPath(path);
     }
 
-    private SongDetailBean getPlayingSongDetail() {
+    public SongDetailBean getPlayingSongDetail() {
         return MusicPreferences.songDetailBean;
     }
 
     private void notifyAndStopPlay(boolean notify, boolean stopService) {
         pauseMusicAudio(getPlayingSongDetail());
+        stopProximitySensor();
+        if (mMediaPlayer != null) {
+            mMediaPlayer.reset();
+
+            mMediaPlayer.stop();
+
+            mMediaPlayer.release();
+        } else if (mAudioTrack != null) {
+            synchronized (playerSongDetailSync) {
+                mAudioTrack.pause();
+                mAudioTrack.flush();
+
+                mAudioTrack.release();
+                mAudioTrack = null;
+            }
+        }
+        stopProgressTimer();
+        //标记暂停
+        isPaused = true;
+        if (stopService) {
+            Intent intent = new Intent(
+                    MusicApplication.applicationContext, MusicPlayerService.class);
+            MusicApplication.applicationContext.stopService(intent);
+        }
     }
 
     private boolean pauseMusicAudio(SongDetailBean songDetailBean) {
@@ -148,9 +181,23 @@ public class MyMediaController implements SensorEventListener {
                     progressTimer.cancel();
                     progressTimer = null;
                 } catch (Exception e) {
-                   e.printStackTrace();
+                    e.printStackTrace();
                 }
             }
         }
+    }
+
+    public boolean isAudioPaused() {
+        return isPaused;
+    }
+
+    public boolean playAudio(SongDetailBean songDetailBean) {
+        if (songDetailBean == null) return false;
+        if ((mAudioTrack != null || mMediaPlayer != null)
+                && MusicPreferences.songDetailBean != null
+                && songDetailBean.getId() == MusicPreferences.songDetailBean.getId()) {
+
+        }
+        return true;
     }
 }

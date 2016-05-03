@@ -9,7 +9,10 @@ import com.jianghw.music.xutil.NullExUtils;
 import java.util.List;
 
 /**
- * @Description: </b>TODO<br/>
+ * @Description: </b>
+ * Custom {@link android.content.Loader} for a list of {@link MusicTask},
+ * using the{@link Repository} as its source.
+ * This Loader is a {@link AsyncTaskLoader} so it queries the data asynchronously.<br/>
  * @Author: </b>jianghw<br>
  * @Since: </b>2016/4/28<br>
  * @See {@link}
